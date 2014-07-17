@@ -7,7 +7,13 @@ C++=$(GPP)
 
 EXE=sjasmplus
 
-CFLAGS=-O2 -DLUA_USE_LINUX -DMAX_PATH=PATH_MAX -Ilua5.1 -Itolua++
+CFLAGS=-O2 -DMAX_PATH=PATH_MAX -Ilua5.1 -Itolua++
+# don't define LUA_USE_LINUX under mingw32
+SYS = $(shell $(GCC) -dumpmachine)
+ifeq (, $(findstring mingw, $(SYS)))
+        CFLAGS += -DLUA_USE_LINUX
+endif
+
 CXXFLAGS=$(CFLAGS)
 
 #for Linux
